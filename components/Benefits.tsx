@@ -1,56 +1,83 @@
+import { SectionHeader } from "@/components/SectionHeader";
+
 const benefits = [
   {
-    title: "Пошаговая инструкция",
+    title: "6 этапов от А до Я",
     description:
-      "Каждый этап расписан простым языком: от сбора документов до первого заказа в агрегаторе.",
-    icon: "📋",
+      "Документы → egovernment.by → налоги → агрегатор → первый заказ. Ничего не пропущено.",
+    span: "sm:col-span-2",
+    highlight: true,
   },
   {
     title: "Актуально для РБ",
     description:
-      "Информация о регистрации ИП, налогообложении и требованиях для водителей такси в Беларуси.",
-    icon: "🇧🇾",
+      "Порталы, сроки и требования именно для Беларуси — не общие статьи из интернета.",
+    span: "",
+    highlight: false,
   },
   {
-    title: "Экономия времени",
+    title: "Чек-листы",
     description:
-      "Не нужно искать разрозненную информацию — всё собрано в одном месте с чек-листами.",
-    icon: "⏱️",
+      "Отмечайте выполненные пункты — не забудете ни одного документа.",
+    span: "",
+    highlight: false,
   },
   {
     title: "Доступ навсегда",
     description:
-      "После оплаты инструкция остаётся доступна по вашей персональной ссылке.",
-    icon: "🔗",
+      "Персональная ссылка после оплаты. Возвращайтесь в любой момент.",
+    span: "",
+    highlight: false,
+  },
+  {
+    title: "Без юридического жаргона",
+    description:
+      "Пишем понятным языком — без сложных терминов. Разберётесь с первого прочтения.",
+    span: "sm:col-span-2",
+    highlight: false,
   },
 ];
 
 export function Benefits() {
   return (
-    <section id="benefits" className="px-4 py-24 sm:px-6">
+    <section id="benefits" className="px-4 py-16 sm:px-6 sm:py-24">
       <div className="mx-auto max-w-6xl">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold text-slate-900 sm:text-4xl">
-            Почему это удобно
-          </h2>
-          <p className="mt-4 text-lg text-slate-600">
-            Мы собрали всё необходимое для быстрого старта работы водителем такси
-            на легальной основе
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <SectionHeader
+            align="left"
+            label="Что внутри"
+            title={
+              <>
+                Всё, что нужно водителю —{" "}
+                <span className="text-gradient">в одной инструкции</span>
+              </>
+            }
+          />
+          <p className="max-w-sm text-center text-sm leading-relaxed text-slate-400 sm:text-base lg:text-right">
+            Готовый алгоритм действий, который экономит недели
+            самостоятельного поиска
           </p>
         </div>
-        <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+
+        <div className="mt-10 grid gap-4 sm:mt-14 sm:grid-cols-2 lg:grid-cols-3">
           {benefits.map((item) => (
             <div
               key={item.title}
-              className="glass-card group rounded-2xl p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+              className={`card-elevated flex h-full flex-col rounded-2xl p-5 sm:p-6 ${item.span} ${
+                item.highlight
+                  ? "border-amber-500/20 bg-gradient-to-br from-amber-500/10 to-transparent"
+                  : ""
+              }`}
             >
-              <span className="text-3xl" role="img" aria-hidden="true">
-                {item.icon}
-              </span>
-              <h3 className="mt-4 text-lg font-semibold text-slate-800">
+              {item.highlight && (
+                <span className="mb-3 inline-block w-fit rounded-full bg-amber-400/20 px-3 py-1 text-xs font-medium text-amber-300">
+                  Главное
+                </span>
+              )}
+              <h3 className="font-display text-base font-semibold text-white sm:text-lg">
                 {item.title}
               </h3>
-              <p className="mt-2 text-sm leading-relaxed text-slate-600">
+              <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-400">
                 {item.description}
               </p>
             </div>

@@ -1,37 +1,38 @@
 "use client";
 
 import { useState } from "react";
+import { SectionHeader } from "@/components/SectionHeader";
 
 const faqs = [
   {
     question: "Зачем нужно ИП для работы в такси?",
     answer:
-      "Работа водителем такси через агрегаторы (Яндекс Go и др.) требует статуса индивидуального предпринимателя или самозанятого. ИП позволяет легально получать доход и подключаться к сервисам.",
+      "Агрегаторы (Яндекс Go и др.) работают только с легальными партнёрами — ИП или самозанятыми. Без статуса вы не сможете принимать заказы и получать выплаты официально.",
   },
   {
-    question: "Сколько времени занимает регистрация ИП?",
+    question: "Сколько времени займёт регистрация?",
     answer:
-      "При наличии всех документов регистрация через портал egovernment.by обычно занимает 1–3 рабочих дня. Наша инструкция поможет подготовиться заранее.",
+      "При готовых документах — 1–3 рабочих дня через egovernment.by. Инструкция поможет подготовиться заранее, чтобы не затягивать процесс.",
   },
   {
-    question: "Как я получу инструкцию после оплаты?",
+    question: "Когда я получу доступ к инструкции?",
     answer:
-      "Сразу после успешной оплаты вы будете перенаправлены на страницу с персональной ссылкой. Инструкция доступна онлайн — сохраните ссылку в закладках.",
+      "Сразу после успешной оплаты — автоматически. Вы получите персональную ссылку, которую можно сохранить в закладках.",
   },
   {
-    question: "Какие способы оплаты принимаются?",
+    question: "Какие карты принимаются?",
     answer:
-      "Оплата производится банковской картой через платёжную систему bePaid. Поддерживаются карты белорусских банков.",
+      "Любые карты белорусских банков через платёжную систему bePaid. Оплата защищена и проходит на стороне банка.",
   },
   {
-    question: "Это юридическая консультация?",
+    question: "Это замена юристу?",
     answer:
-      "Нет. Материалы носят информационный характер и не являются юридической или налоговой консультацией. При необходимости обратитесь к специалисту.",
+      "Нет. Это информационный продукт с пошаговым алгоритмом. Для сложных случаев рекомендуем консультацию специалиста.",
   },
   {
-    question: "Можно ли вернуть деньги?",
+    question: "Можно вернуть деньги?",
     answer:
-      "После получения доступа к цифровой инструкции возврат не предусмотрен, так как товар предоставляется в электронном виде сразу после оплаты.",
+      "После получения цифрового доступа возврат не предусмотрен — продукт доставляется мгновенно после оплаты.",
   },
 ];
 
@@ -39,49 +40,35 @@ export function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="px-4 py-24 sm:px-6">
+    <section id="faq" className="section-light px-4 py-16 sm:px-6 sm:py-24">
       <div className="mx-auto max-w-3xl">
-        <div className="text-center">
-          <h2 className="text-3xl font-bold text-slate-900 sm:text-4xl">
-            Частые вопросы
-          </h2>
-          <p className="mt-4 text-lg text-slate-600">
-            Ответы на популярные вопросы об открытии ИП для такси
-          </p>
-        </div>
-        <div className="mt-12 space-y-3">
+        <SectionHeader label="FAQ" title="Остались вопросы?" />
+
+        <div className="mt-8 space-y-2 sm:mt-12 sm:space-y-3">
           {faqs.map((faq, index) => (
             <div
               key={faq.question}
-              className="glass-card overflow-hidden rounded-2xl shadow-sm"
+              className="overflow-hidden rounded-xl border border-white/5 bg-[#111827]/80 transition-colors hover:border-white/10 sm:rounded-2xl"
             >
               <button
                 type="button"
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                className="flex w-full items-center justify-between px-6 py-5 text-left"
+                className="flex w-full items-center justify-between gap-3 px-4 py-4 text-left sm:px-6 sm:py-5"
               >
-                <span className="pr-4 font-medium text-slate-800">
+                <span className="text-sm font-medium text-white sm:text-base">
                   {faq.question}
                 </span>
-                <svg
-                  className={`h-5 w-5 shrink-0 text-sky-500 transition-transform ${
-                    openIndex === index ? "rotate-180" : ""
+                <span
+                  className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/5 text-sm text-amber-400 transition-transform sm:h-8 sm:w-8 ${
+                    openIndex === index ? "rotate-45" : ""
                   }`}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
+                  +
+                </span>
               </button>
               {openIndex === index && (
-                <div className="border-t border-slate-100 px-6 pb-5 pt-2">
-                  <p className="text-sm leading-relaxed text-slate-600">
+                <div className="border-t border-white/5 px-4 pb-4 pt-1 sm:px-6 sm:pb-5">
+                  <p className="text-sm leading-relaxed text-slate-400">
                     {faq.answer}
                   </p>
                 </div>

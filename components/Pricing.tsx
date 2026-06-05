@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { IconCheck } from "@/components/ui/Icons";
+import { SectionHeader } from "@/components/SectionHeader";
 
 interface PricingProps {
   priceDisplay: string;
@@ -30,62 +32,72 @@ export function Pricing({ priceDisplay }: PricingProps) {
   }
 
   const features = [
-    "Полная инструкция по открытию ИП",
-    "Чек-лист документов",
-    "Руководство по egovernment.by",
-    "Выбор системы налогообложения",
-    "Подключение к агрегатору такси",
-    "Персональная ссылка на инструкцию",
+    "Полная инструкция — 6 этапов от А до Я",
+    "Чек-лист документов для агрегатора",
+    "Пошаговый гид по egovernment.by",
+    "Разбор систем налогообложения",
+    "Подключение к Яндекс Go и другим сервисам",
+    "Персональная ссылка — доступ навсегда",
   ];
 
   return (
-    <section id="pricing" className="px-4 py-24 sm:px-6">
-      <div className="mx-auto max-w-6xl">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold text-slate-900 sm:text-4xl">
-            Тариф
-          </h2>
-          <p className="mt-4 text-lg text-slate-600">
-            Одна оплата — полный доступ к инструкции
-          </p>
-        </div>
+    <section id="pricing" className="relative px-4 py-16 sm:px-6 sm:py-24">
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-amber-500/5 to-transparent" />
 
-        <div className="mx-auto mt-12 max-w-lg">
-          <div className="glass-card overflow-hidden rounded-3xl shadow-xl">
-            <div className="bg-gradient-to-r from-sky-500 to-cyan-500 px-8 py-6 text-white">
-              <p className="text-sm font-medium opacity-90">Стандарт</p>
-              <div className="mt-2 flex items-baseline gap-2">
-                <span className="text-5xl font-bold">{priceDisplay}</span>
-                <span className="text-xl opacity-90">BYN</span>
+      <div className="relative mx-auto max-w-6xl">
+        <SectionHeader
+          label="Специальное предложение"
+          title={
+            <>
+              Один платёж — <span className="text-gradient">полный старт</span>
+            </>
+          }
+          description="Дешевле одной консультации. Дороже, чем месяцы проб и ошибок."
+        />
+
+        <div className="mx-auto mt-10 max-w-lg sm:mt-14">
+          <div className="relative overflow-hidden rounded-2xl border border-amber-500/30 bg-[#111827] shadow-2xl shadow-amber-500/10 sm:rounded-3xl">
+            <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-amber-400/20 blur-3xl" />
+
+            <div className="relative border-b border-white/5 bg-gradient-to-r from-amber-500/15 to-transparent px-5 py-6 sm:px-8 sm:py-8">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-sm font-medium text-amber-300">
+                    Полный комплект
+                  </p>
+                  <div className="mt-2 flex items-baseline gap-2">
+                    <span className="font-display text-5xl font-bold text-white sm:text-6xl">
+                      {priceDisplay}
+                    </span>
+                    <span className="text-lg text-slate-400 sm:text-xl">BYN</span>
+                  </div>
+                </div>
+                <span className="shrink-0 rounded-full bg-amber-400 px-2.5 py-1 text-[10px] font-bold text-[#0b0f19] sm:px-3 sm:text-xs">
+                  ХИТ
+                </span>
               </div>
-              <p className="mt-2 text-sm opacity-90">
-                Разовая оплата, доступ без ограничений по времени
+              <p className="mt-3 text-xs text-slate-400 sm:text-sm">
+                Разовая оплата · мгновенный доступ · без подписок
               </p>
             </div>
-            <div className="p-8">
-              <ul className="space-y-4">
+
+            <div className="relative px-5 py-6 sm:p-8">
+              <ul className="space-y-3 sm:space-y-4">
                 {features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-3 text-sm text-slate-700">
-                    <svg
-                      className="mt-0.5 h-5 w-5 shrink-0 text-emerald-500"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
+                  <li
+                    key={feature}
+                    className="flex items-start gap-3 text-sm text-slate-300"
+                  >
+                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-amber-400/20 text-amber-400">
+                      <IconCheck className="h-3 w-3" />
+                    </span>
                     {feature}
                   </li>
                 ))}
               </ul>
 
               {error && (
-                <p className="mt-4 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600">
+                <p className="mt-4 rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">
                   {error}
                 </p>
               )}
@@ -94,16 +106,36 @@ export function Pricing({ priceDisplay }: PricingProps) {
                 type="button"
                 onClick={handleCheckout}
                 disabled={loading}
-                className="mt-8 w-full rounded-2xl bg-gradient-to-r from-sky-500 to-cyan-500 py-4 text-base font-semibold text-white shadow-lg shadow-sky-200/50 transition hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-60"
+                className="btn-primary mt-6 w-full rounded-2xl py-3.5 text-sm disabled:cursor-not-allowed disabled:opacity-60 sm:mt-8 sm:py-4 sm:text-base"
               >
-                {loading ? "Перенаправление..." : "Оплатить и получить инструкцию"}
+                {loading ? (
+                  "Перенаправление..."
+                ) : (
+                  <>
+                    <span className="sm:hidden">Оплатить {priceDisplay} BYN</span>
+                    <span className="hidden sm:inline">
+                      Оплатить {priceDisplay} BYN и получить инструкцию
+                    </span>
+                  </>
+                )}
               </button>
 
-              <p className="mt-4 text-center text-xs text-slate-500">
-                Безопасная оплата через bePaid. Принимаются карты белорусских банков.
-              </p>
+              <div className="mt-5 flex flex-col items-center gap-2 text-xs text-slate-500 sm:mt-6 sm:flex-row sm:justify-center sm:gap-4">
+                <span className="flex items-center gap-1.5">
+                  <LockIcon />
+                  Безопасная оплата bePaid
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <CardIcon />
+                  Карты банков РБ
+                </span>
+              </div>
             </div>
           </div>
+
+          <p className="mt-4 text-center text-xs text-slate-600 sm:mt-6">
+            Цифровой продукт — доступ предоставляется сразу после оплаты
+          </p>
         </div>
       </div>
     </section>
@@ -127,15 +159,39 @@ export function MobileStickyCTA({ priceDisplay }: PricingProps) {
   }
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-slate-200 bg-white/95 p-4 backdrop-blur-md sm:hidden">
-      <button
-        type="button"
-        onClick={handleCheckout}
-        disabled={loading}
-        className="w-full rounded-2xl bg-gradient-to-r from-sky-500 to-cyan-500 py-3.5 text-base font-semibold text-white shadow-lg disabled:opacity-60"
-      >
-        {loading ? "Загрузка..." : `Оплатить ${priceDisplay} BYN`}
-      </button>
+    <div className="safe-bottom fixed bottom-0 left-0 right-0 z-40 border-t border-white/10 bg-[#070b14]/95 px-4 py-3 backdrop-blur-xl sm:hidden">
+      <div className="mx-auto flex max-w-lg items-center gap-3">
+        <div className="shrink-0">
+          <p className="font-display text-base font-bold text-white">
+            {priceDisplay} BYN
+          </p>
+          <p className="text-[10px] text-slate-500">разовый платёж</p>
+        </div>
+        <button
+          type="button"
+          onClick={handleCheckout}
+          disabled={loading}
+          className="btn-primary flex-1 rounded-xl py-3 text-sm disabled:opacity-60"
+        >
+          {loading ? "Загрузка..." : "Получить инструкцию"}
+        </button>
+      </div>
     </div>
+  );
+}
+
+function LockIcon() {
+  return (
+    <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+    </svg>
+  );
+}
+
+function CardIcon() {
+  return (
+    <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+    </svg>
   );
 }
