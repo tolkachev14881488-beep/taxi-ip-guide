@@ -1,11 +1,42 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import {
+  createDemoAccessToken,
+  isDatabaseAvailable,
+  isDemoMode,
+} from "@/lib/access";
 import { createCheckout, getProductPrice, getSiteUrl } from "@/lib/bepaid";
 
 export async function POST() {
   try {
     const { amount, display } = getProductPrice();
     const siteUrl = getSiteUrl();
+
+    if (isDemoMode()) {
+      let accessToken: string;
+
+      if (isDatabaseAvailable()) {
+        const order = await prisma.order.create({
+          data: {
+            amount,
+            currency: "BYN",
+            status: "paid",
+            paidAt: new Date(),
+          },
+        });
+        accessToken = order.accessToken;
+      } else {
+        accessToken = createDemoAccessToken();
+      }
+
+      const successUrl = `${siteUrl}/success?token=${encodeURIComponent(accessToken)}`;
+
+      return NextResponse.json({
+        redirectUrl: successUrl,
+        accessToken,
+        demo: true,
+      });
+    }
 
     const order = await prisma.order.create({
       data: {

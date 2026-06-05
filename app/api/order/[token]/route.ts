@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/db";
+import { verifyDemoAccessToken, isDatabaseAvailable } from "@/lib/access";
 
 export async function GET(
   _request: NextRequest,
@@ -7,6 +7,20 @@ export async function GET(
 ) {
   const { token } = await params;
 
+  if (verifyDemoAccessToken(token)) {
+    return NextResponse.json({
+      status: "paid",
+      paid: true,
+      demo: true,
+      paidAt: new Date().toISOString(),
+    });
+  }
+
+  if (!isDatabaseAvailable()) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+
+  const { prisma } = await import("@/lib/db");
   const order = await prisma.order.findUnique({
     where: { accessToken: token },
     select: {

@@ -2,7 +2,11 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { readFile } from "fs/promises";
 import path from "path";
-import { prisma } from "@/lib/db";
+import {
+  hasPaidAccess,
+  isDatabaseAvailable,
+  verifyDemoAccessToken,
+} from "@/lib/access";
 import { InstructionContent } from "@/components/InstructionContent";
 
 interface InstructionPageProps {
@@ -16,20 +20,22 @@ async function getInstructionContent(): Promise<string> {
 
 export default async function InstructionPage({ params }: InstructionPageProps) {
   const { token } = await params;
+  const allowed = await hasPaidAccess(token);
 
-  const order = await prisma.order.findUnique({
-    where: { accessToken: token },
-  });
-
-  if (!order) {
+  if (!allowed) {
+    if (isDatabaseAvailable()) {
+      const { prisma } = await import("@/lib/db");
+      const order = await prisma.order.findUnique({
+        where: { accessToken: token },
+      });
+      if (!order) notFound();
+      redirect("/?payment=pending");
+    }
     notFound();
   }
 
-  if (order.status !== "paid") {
-    redirect("/?payment=pending");
-  }
-
   const content = await getInstructionContent();
+  const isDemo = verifyDemoAccessToken(token);
 
   return (
     <div className="min-h-screen bg-[#070b14]">
@@ -42,10 +48,16 @@ export default async function InstructionPage({ params }: InstructionPageProps) 
             <span className="font-display font-semibold text-white">ТаксиПуть</span>
           </Link>
           <span className="rounded-full bg-emerald-500/15 px-3 py-1 text-xs font-medium text-emerald-400">
-            ✓ Доступ открыт
+            {isDemo ? "Демо-доступ" : "Доступ открыт"}
           </span>
         </div>
       </header>
+
+      {isDemo && (
+        <div className="border-b border-amber-500/20 bg-amber-500/10 px-4 py-2 text-center text-xs text-amber-200/90">
+          Демо-режим: оплата не подключена. После настройки bePaid здесь будет реальная оплата.
+        </div>
+      )}
 
       <main className="mx-auto max-w-4xl px-4 py-12 sm:px-6 sm:py-16">
         <div className="rounded-3xl border border-white/10 bg-[#111827] p-6 sm:p-10">
