@@ -14,7 +14,7 @@ export default function HomePage() {
   const { display: priceDisplay } = getProductPrice();
 
   return (
-    <div className="min-h-screen bg-[#070b14] pb-[4.5rem] sm:pb-0">
+    <div className="min-h-screen bg-[var(--background)] pb-[4.25rem] lg:pb-0">
       <Header />
       <main>
         <Hero priceDisplay={priceDisplay} />

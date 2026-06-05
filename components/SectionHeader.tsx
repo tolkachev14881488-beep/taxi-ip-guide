@@ -1,29 +1,44 @@
+interface SectionProps {
+  id?: string;
+  alt?: boolean;
+  children: React.ReactNode;
+  className?: string;
+}
+
+export function Section({ id, alt, children, className = "" }: SectionProps) {
+  return (
+    <section
+      id={id}
+      className={`section ${alt ? "section-alt" : ""} ${className}`}
+    >
+      <div className="container-main">{children}</div>
+    </section>
+  );
+}
+
 interface SectionHeaderProps {
   label: string;
   title: React.ReactNode;
   description?: string;
-  align?: "center" | "left";
+  centered?: boolean;
 }
 
 export function SectionHeader({
   label,
   title,
   description,
-  align = "center",
+  centered = true,
 }: SectionHeaderProps) {
-  const alignClass =
-    align === "center"
-      ? "mx-auto max-w-2xl text-center"
-      : "max-w-xl text-center sm:text-left";
-
   return (
-    <div className={alignClass}>
-      <span className="section-label">{label}</span>
-      <h2 className="font-display mt-5 text-2xl font-bold leading-tight text-white sm:mt-6 sm:text-3xl lg:text-4xl">
+    <div
+      className={`mb-12 lg:mb-16 ${centered ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}`}
+    >
+      <p className="section-label">{label}</p>
+      <h2 className="font-display mt-3 text-[1.625rem] font-bold leading-[1.2] text-white sm:text-3xl lg:text-[2rem]">
         {title}
       </h2>
       {description && (
-        <p className="mt-3 text-base leading-relaxed text-slate-400 sm:mt-4 sm:text-lg">
+        <p className="mt-4 text-base leading-relaxed text-[var(--muted)] lg:text-[1.0625rem]">
           {description}
         </p>
       )}

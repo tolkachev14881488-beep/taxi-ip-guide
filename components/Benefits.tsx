@@ -1,89 +1,73 @@
-import { SectionHeader } from "@/components/SectionHeader";
+import { Section, SectionHeader } from "@/components/SectionHeader";
 
 const benefits = [
   {
     title: "6 этапов от А до Я",
     description:
-      "Документы → egovernment.by → налоги → агрегатор → первый заказ. Ничего не пропущено.",
-    span: "sm:col-span-2",
+      "Документы, egovernment.by, налоги, агрегатор и первый заказ — ничего не пропущено.",
     highlight: true,
   },
   {
     title: "Актуально для РБ",
-    description:
-      "Порталы, сроки и требования именно для Беларуси — не общие статьи из интернета.",
-    span: "",
+    description: "Порталы, сроки и требования именно для Беларуси.",
     highlight: false,
   },
   {
     title: "Чек-листы",
-    description:
-      "Отмечайте выполненные пункты — не забудете ни одного документа.",
-    span: "",
+    description: "Отмечайте выполненные пункты — ничего не забудете.",
     highlight: false,
   },
   {
     title: "Доступ навсегда",
-    description:
-      "Персональная ссылка после оплаты. Возвращайтесь в любой момент.",
-    span: "",
+    description: "Персональная ссылка после оплаты без ограничений по времени.",
     highlight: false,
   },
   {
-    title: "Без юридического жаргона",
-    description:
-      "Пишем понятным языком — без сложных терминов. Разберётесь с первого прочтения.",
-    span: "sm:col-span-2",
+    title: "Понятный язык",
+    description: "Без юридического жаргона — разберётесь с первого прочтения.",
+    highlight: false,
+  },
+  {
+    title: "Подключение к агрегатору",
+    description: "Инструкция по регистрации в Яндекс Go и аналогах.",
     highlight: false,
   },
 ];
 
 export function Benefits() {
   return (
-    <section id="benefits" className="px-4 py-16 sm:px-6 sm:py-24">
-      <div className="mx-auto max-w-6xl">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <SectionHeader
-            align="left"
-            label="Что внутри"
-            title={
-              <>
-                Всё, что нужно водителю —{" "}
-                <span className="text-gradient">в одной инструкции</span>
-              </>
-            }
-          />
-          <p className="max-w-sm text-center text-sm leading-relaxed text-slate-400 sm:text-base lg:text-right">
-            Готовый алгоритм действий, который экономит недели
-            самостоятельного поиска
-          </p>
-        </div>
+    <Section id="benefits">
+      <SectionHeader
+        label="Содержание"
+        title={
+          <>
+            Всё необходимое —{" "}
+            <span className="text-gradient">в одном гиде</span>
+          </>
+        }
+        description="Не курс и не консультация. Готовый алгоритм действий для водителя такси."
+      />
 
-        <div className="mt-10 grid gap-4 sm:mt-14 sm:grid-cols-2 lg:grid-cols-3">
-          {benefits.map((item) => (
-            <div
-              key={item.title}
-              className={`card-elevated flex h-full flex-col rounded-2xl p-5 sm:p-6 ${item.span} ${
-                item.highlight
-                  ? "border-amber-500/20 bg-gradient-to-br from-amber-500/10 to-transparent"
-                  : ""
-              }`}
-            >
-              {item.highlight && (
-                <span className="mb-3 inline-block w-fit rounded-full bg-amber-400/20 px-3 py-1 text-xs font-medium text-amber-300">
-                  Главное
-                </span>
-              )}
-              <h3 className="font-display text-base font-semibold text-white sm:text-lg">
-                {item.title}
-              </h3>
-              <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-400">
-                {item.description}
-              </p>
-            </div>
-          ))}
-        </div>
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
+        {benefits.map((item) => (
+          <div
+            key={item.title}
+            className={`card flex flex-col p-6 ${item.highlight ? "card-highlight lg:col-span-1" : ""}`}
+          >
+            {item.highlight && (
+              <span className="mb-3 w-fit rounded-md bg-[var(--accent-soft)] px-2 py-0.5 text-[0.6875rem] font-semibold uppercase tracking-wide text-[var(--accent)]">
+                Основное
+              </span>
+            )}
+            <h3 className="font-display text-base font-semibold text-white">
+              {item.title}
+            </h3>
+            <p className="mt-2 flex-1 text-sm leading-relaxed text-[var(--muted)]">
+              {item.description}
+            </p>
+          </div>
+        ))}
       </div>
-    </section>
+    </Section>
   );
 }
